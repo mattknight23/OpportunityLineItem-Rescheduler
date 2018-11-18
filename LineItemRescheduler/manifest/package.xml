@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>OpportunityLineItemRescheduler</members>
+        <members>OpportunityLineItemReschedulerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>OpportunityTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>Opportunity.Update_Schedule_Start_Date__c</members>
+        <members>Opportunity.Update_Schedules__c</members>
+        <name>CustomField</name>
+    </types>
+    <version>44.0</version>
+</Package>
