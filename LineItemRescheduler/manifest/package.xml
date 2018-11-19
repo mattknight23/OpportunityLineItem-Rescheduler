@@ -11,7 +11,7 @@
     </types>
     <types>
         <members>Opportunity.Update_Schedule_Start_Date__c</members>
-        <members>Opportunity.Update_Schedules__c</members>
+        <members>Opportunity.Update_Schedules_With_Close_Date__c</members>
         <name>CustomField</name>
     </types>
     <version>44.0</version>

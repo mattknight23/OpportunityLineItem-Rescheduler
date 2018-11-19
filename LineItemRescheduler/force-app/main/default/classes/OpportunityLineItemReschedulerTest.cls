@@ -49,7 +49,7 @@ public with sharing class OpportunityLineItemReschedulerTest {
         Test.startTest();
 
         opp1.CloseDate = System.today().addDays(2);
-        opp1.Update_Schedules__c = true;
+        opp1.Update_Schedules_With_Close_Date__c = true;
         
         update opp1;
 
@@ -64,7 +64,7 @@ public with sharing class OpportunityLineItemReschedulerTest {
         delete oLIS;
 
         opp1.CloseDate = System.today().addDays(6);
-        opp1.Update_Schedules__c = true;
+        opp1.Update_Schedules_With_Close_Date__c = true;
         
         update opp1;
 
@@ -75,7 +75,7 @@ public with sharing class OpportunityLineItemReschedulerTest {
         delete oli;
 
         opp1.CloseDate = System.today().addDays(10);
-        opp1.Update_Schedules__c = true;
+        opp1.Update_Schedules_With_Close_Date__c = true;
         
         update opp1;
 

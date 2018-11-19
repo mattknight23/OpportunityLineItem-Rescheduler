@@ -4,7 +4,7 @@ public with sharing class OpportunityLineItemRescheduler {
         
         List<OpportunityLineItemSchedule> schedulesToUpdate = new List<OpportunityLineItemSchedule>();        
         Map<Id, Opportunity> oppMap = new Map<Id, Opportunity>();
-        List<OpportunityLineItem> oppLineItems = [SELECT Opportunity.Update_Schedules__c, OpportunityId,  (SELECT Id, ScheduleDate FROM OpportunityLineItemSchedules order by ScheduleDate asc) FROM OpportunityLineItem WHERE OpportunityId IN: newMap.keySet()];
+        List<OpportunityLineItem> oppLineItems = [SELECT Opportunity.Update_Schedules_With_Close_Date__c, OpportunityId,  (SELECT Id, ScheduleDate FROM OpportunityLineItemSchedules order by ScheduleDate asc) FROM OpportunityLineItem WHERE OpportunityId IN: newMap.keySet()];
 
         if(!oppLineItems.isEmpty()){
             for (OpportunityLineItem oli: oppLineItems) {
@@ -16,23 +16,23 @@ public with sharing class OpportunityLineItemRescheduler {
                 
                 if(!oli.OpportunityLineItemSchedules.isEmpty()) {
                     
-                    if((oldSceduleDate == null && newSceduleDate != null) || (oldSceduleDate != newSceduleDate && newSceduleDate != null) && oli.Opportunity.Update_Schedules__c == false) {
+                    if((oldSceduleDate == null && newSceduleDate != null) || (oldSceduleDate != newSceduleDate && newSceduleDate != null) && oli.Opportunity.Update_Schedules_With_Close_Date__c == false) {
                         schedulesToUpdate.addAll(OpportunityLineItemRescheduler.updateSchedule(oli.OpportunityLineItemSchedules, newSceduleDate));
-                    } else if (newOpp.Update_Schedules__c == true) {
-                        oppMap.put(newOpp.Id, new Opportunity(Id = newOpp.Id, Update_Schedules__c = false, Update_Schedule_Start_Date__c = null));
+                    } else if (newOpp.Update_Schedules_With_Close_Date__c == true) {
+                        oppMap.put(newOpp.Id, new Opportunity(Id = newOpp.Id, Update_Schedules_With_Close_Date__c = false, Update_Schedule_Start_Date__c = null));
                         schedulesToUpdate.addAll(OpportunityLineItemRescheduler.updateSchedule(oli.OpportunityLineItemSchedules, newOpp.CloseDate));
                     }
 
-                } else if( newOpp.Update_Schedules__c == true ) {
-                    oppMap.put(newOpp.Id, new Opportunity(Id = newOpp.Id, Update_Schedules__c = false, Update_Schedule_Start_Date__c = null));
+                } else if( newOpp.Update_Schedules_With_Close_Date__c == true ) {
+                    oppMap.put(newOpp.Id, new Opportunity(Id = newOpp.Id, Update_Schedules_With_Close_Date__c = false, Update_Schedule_Start_Date__c = null));
                 }
             }
             update oppMap.values();
             update schedulesToUpdate;
         } else {
             for(Opportunity o : newMap.values()) {
-                if( o.Update_Schedules__c == true ) {
-                    oppMap.put(o.Id, new Opportunity(Id = o.Id, Update_Schedules__c = false, Update_Schedule_Start_Date__c = null));
+                if( o.Update_Schedules_With_Close_Date__c == true ) {
+                    oppMap.put(o.Id, new Opportunity(Id = o.Id, Update_Schedules_With_Close_Date__c = false, Update_Schedule_Start_Date__c = null));
                 }
             }
             update oppMap.values();
