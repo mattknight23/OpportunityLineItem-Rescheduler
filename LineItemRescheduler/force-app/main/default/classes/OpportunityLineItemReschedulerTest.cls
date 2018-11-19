@@ -1,13 +1,13 @@
 @isTest
 public with sharing class OpportunityLineItemReschedulerTest {
     
-    static TestMethod void unitTest1() {
+    static TestMethod void testSetup() {
 
         Account acc1 = new Account(Name = 'Test Account');
         insert acc1;
         System.assertNotEquals(null,acc1.id);
         
-        Opportunity opp1 = new Opportunity(Name = 'Test Opp', AccountId = acc1.Id, StageName = 'Closed Won',CloseDate = System.today());
+        Opportunity opp1 = new Opportunity(Name = 'Test Opp', AccountId = acc1.Id, StageName = 'Closed Won',CloseDate = System.today(), Final_Delivery_Date__c = System.today().addDays(200));
         insert opp1;
         System.assertNotEquals(null,opp1.id);
         
@@ -43,5 +43,26 @@ public with sharing class OpportunityLineItemReschedulerTest {
         );
         insert oli;
         System.assertNotEquals(null,oli.id);
+
+        OpportunityLineItemSchedule oLIS = new OpportunityLineItemSchedule(
+            OpportunityLineItemId = oli.Id,
+            ScheduleDate = opp1.CloseDate,
+            Revenue = 10,
+            Type = 'Revenue'
+        );
+        insert oLIS;
+    
+        Test.startTest();
+
+        opp1.CloseDate = System.today().addDays(2);
+        opp1.Update_Schedules__c = true;
+        
+        update opp1;
+
+        opp1.Update_Schedule_Start_Date__c = System.today().addDays(4);
+        
+        update opp1;
+
+        Test.stopTest();
     }
 }
