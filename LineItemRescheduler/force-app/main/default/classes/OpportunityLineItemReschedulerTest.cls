@@ -56,10 +56,32 @@ public with sharing class OpportunityLineItemReschedulerTest {
         System.assertEquals(getScheduleDate(oLIS.Id), System.today().addDays(2));
 
         opp1.Update_Schedule_Start_Date__c = System.today().addDays(4);
-        
+
         update opp1;
 
         System.assertEquals(getScheduleDate(oLIS.Id), System.today().addDays(4));
+
+        delete oLIS;
+
+        opp1.CloseDate = System.today().addDays(6);
+        opp1.Update_Schedules__c = true;
+        
+        update opp1;
+
+        opp1.Update_Schedule_Start_Date__c = System.today().addDays(8);
+
+        update opp1;
+
+        delete oli;
+
+        opp1.CloseDate = System.today().addDays(10);
+        opp1.Update_Schedules__c = true;
+        
+        update opp1;
+
+        opp1.Update_Schedule_Start_Date__c = System.today().addDays(12);
+
+        update opp1;
 
         Test.stopTest();
     }
