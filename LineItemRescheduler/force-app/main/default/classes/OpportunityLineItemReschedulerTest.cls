@@ -45,40 +45,41 @@ public with sharing class OpportunityLineItemReschedulerTest {
             Type = 'Revenue'
         );
         insert oLIS;
-
+    
         Test.startTest();
 
-            opp1.CloseDate = opp1.CloseDate.addDays(2);
+            opp1.CloseDate = System.today().addDays(2);
             opp1.Update_Schedules_With_Close_Date__c = true;
-
             update opp1;
+            System.assertEquals(opp1.CloseDate, getScheduleDate(oLIS.Id));
 
             opp1.Update_Schedule_Start_Date__c = System.today().addDays(4);
-          
             update opp1;
+            System.assertEquals(opp1.Update_Schedule_Start_Date__c, getScheduleDate(oLIS.Id));
 
             delete oLIS;
 
-            opp1.CloseDate = opp1.CloseDate.addDays(6);
+            opp1.CloseDate = System.today().addDays(6);
             opp1.Update_Schedules_With_Close_Date__c = true;
-            
             update opp1;
 
-            opp1.Update_Schedule_Start_Date__c = System.today().addDays(8);
-
+            opp1.Update_Schedule_Start_Date__c = opp1.CloseDate;
             update opp1;
 
             delete oli;
 
-            opp1.CloseDate = opp1.CloseDate.addDays(10);
+            opp1.CloseDate = System.today().addDays(10);
             opp1.Update_Schedules_With_Close_Date__c = true;
-            
             update opp1;
 
             opp1.Update_Schedule_Start_Date__c = System.today().addDays(12);
-
             update opp1;
 
         Test.stopTest();
     }
+
+    public static Date getScheduleDate(Id oLISId) {
+        Date scheduleDate = [SELECT ScheduleDate FROM OpportunityLineItemSchedule WHERE id =: oLISId].ScheduleDate;
+        return scheduleDate;
+    } 
 }

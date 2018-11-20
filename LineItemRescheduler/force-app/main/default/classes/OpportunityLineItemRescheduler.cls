@@ -7,6 +7,7 @@ public with sharing class OpportunityLineItemRescheduler {
         List<OpportunityLineItem> oppLineItems = [SELECT Opportunity.Update_Schedules_With_Close_Date__c, OpportunityId,  (SELECT Id, ScheduleDate FROM OpportunityLineItemSchedules order by ScheduleDate asc) FROM OpportunityLineItem WHERE OpportunityId IN: newMap.keySet()];
 
         if(!oppLineItems.isEmpty()){
+            
             for (OpportunityLineItem oli: oppLineItems) {
                 
                 Opportunity oldOpp = oldMap.get(oli.OpportunityId);
@@ -22,7 +23,6 @@ public with sharing class OpportunityLineItemRescheduler {
                         oppMap.put(newOpp.Id, new Opportunity(Id = newOpp.Id, Update_Schedules_With_Close_Date__c = false, Update_Schedule_Start_Date__c = null));
                         schedulesToUpdate.addAll(OpportunityLineItemRescheduler.updateSchedule(oli.OpportunityLineItemSchedules, newOpp.CloseDate));
                     }
-
                 } else if( newOpp.Update_Schedules_With_Close_Date__c == true ) {
                     oppMap.put(newOpp.Id, new Opportunity(Id = newOpp.Id, Update_Schedules_With_Close_Date__c = false, Update_Schedule_Start_Date__c = null));
                 }
@@ -30,8 +30,11 @@ public with sharing class OpportunityLineItemRescheduler {
             update oppMap.values();
             update schedulesToUpdate;
         } else {
+            
             for(Opportunity o : newMap.values()) {
+                
                 if( o.Update_Schedules_With_Close_Date__c == true ) {
+                    
                     oppMap.put(o.Id, new Opportunity(Id = o.Id, Update_Schedules_With_Close_Date__c = false, Update_Schedule_Start_Date__c = null));
                 }
             }
