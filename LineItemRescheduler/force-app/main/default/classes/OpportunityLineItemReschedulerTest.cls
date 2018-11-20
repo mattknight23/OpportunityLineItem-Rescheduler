@@ -53,13 +53,13 @@ public with sharing class OpportunityLineItemReschedulerTest {
         
         update opp1;
 
-        System.assertEquals(getScheduleDate(oLIS.Id), System.today().addDays(2));
+        System.assertEquals(getScheduleDate(oLIS.Id), opp1.CloseDate);
 
         opp1.Update_Schedule_Start_Date__c = System.today().addDays(4);
 
         update opp1;
 
-        System.assertEquals(getScheduleDate(oLIS.Id), System.today().addDays(4));
+        System.assertEquals(getScheduleDate(oLIS.Id), opp1.Update_Schedule_Start_Date__c);
 
         delete oLIS;
 
@@ -68,7 +68,7 @@ public with sharing class OpportunityLineItemReschedulerTest {
         
         update opp1;
 
-        opp1.Update_Schedule_Start_Date__c = System.today().addDays(8);
+        opp1.Update_Schedule_Start_Date__c = opp1.CloseDate;
 
         update opp1;
 
